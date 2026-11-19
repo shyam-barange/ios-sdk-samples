@@ -1,6 +1,6 @@
-# MultiSet iOS SDK Samples
+# MultiSet Swift SDK Samples
 
-The sample app for the [MultiSet iOS SDK](https://github.com/MultiSet-AI/multiset-swift-package).
+The sample app for the [MultiSet Swift SDK](https://github.com/MultiSet-AI/multiset-swift-package).
 It shows localization, object tracking, map creation (LiDAR and Non-LiDAR), a GeoPose map view and
 every SDK setting, and adds the SDK with Swift Package Manager.
 
