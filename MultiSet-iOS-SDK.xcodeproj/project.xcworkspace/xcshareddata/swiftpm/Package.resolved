@@ -1,0 +1,15 @@
+{
+  "originHash" : "56ce6f93c33087de6c6e856fba149e9117991e07e287988736b0547c69473d62",
+  "pins" : [
+    {
+      "identity" : "ios-sdk-package",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/shyam-barange/ios-sdk-package",
+      "state" : {
+        "revision" : "02f850757f3179e6417b1be850b327f8cd7bec35",
+        "version" : "2.5.0"
+      }
+    }
+  ],
+  "version" : 3
+}
