@@ -11,7 +11,6 @@ import RealityKit
 import Combine
 import simd
 import MultiSetSDK
-import MultiSetAR
 
 /// AR Localization View using MultiSetSDK framework
 struct ARLocalizationView: View {

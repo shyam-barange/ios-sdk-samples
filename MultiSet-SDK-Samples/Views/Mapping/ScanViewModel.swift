@@ -8,7 +8,6 @@ Redistribution in source or binary forms must retain this notice.
 import Combine
 import Foundation
 import MultiSetSDK
-import MultiSetAR
 
 /// The scan screen's view of a scan the SDK is driving: it mirrors `MultiSet.shared.mapping`
 /// and forwards the screen's taps. The capture rules themselves are inside the SDK.

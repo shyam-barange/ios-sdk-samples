@@ -17,7 +17,7 @@ To add the SDK to your own app, follow the
 
 ## Run the Sample App
 
-1. Clone this repository and open `MultiSet-iOS-SDK.xcodeproj`:
+1. Clone this repository and open `MultiSet-SDK-Samples.xcodeproj`:
 
    ```bash
    git clone https://github.com/MultiSet-AI/multiset-swift-samples.git
@@ -26,7 +26,7 @@ To add the SDK to your own app, follow the
    Xcode fetches the SDK from
    [multiset-swift-package](https://github.com/MultiSet-AI/multiset-swift-package) at the version
    the project pins, and downloads its framework from that release.
-2. Add your credentials and map code to `MultiSet-iOS-SDK/SDKConfig.swift`:
+2. Add your credentials and map code to `MultiSet-SDK-Samples/SDKConfig.swift`:
 
    ```swift
    struct SDKConfig {

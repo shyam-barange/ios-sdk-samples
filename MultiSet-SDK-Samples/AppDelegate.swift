@@ -8,7 +8,6 @@ Redistribution in source or binary forms must retain this notice.
 
 import UIKit
 import MultiSetSDK
-import MultiSetAR
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

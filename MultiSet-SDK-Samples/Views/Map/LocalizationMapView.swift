@@ -9,7 +9,6 @@ import SwiftUI
 import Combine
 import ARKit
 import MultiSetSDK
-import MultiSetAR
 
 /// GeoPose Map View: a live AR view under a draggable Apple map that plots each fix's GeoPose
 /// against the device GPS. Needs a geo-referenced map or MapSet.

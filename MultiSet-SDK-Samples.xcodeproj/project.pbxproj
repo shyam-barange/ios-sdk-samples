@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D15A0002000000000000BB01 /* MultiSetAR in Frameworks */ = {isa = PBXBuildFile; productRef = D15A0002000000000000BB02 /* MultiSetAR */; };
+		D15A0002000000000000BB01 /* MultiSetSDK in Frameworks */ = {isa = PBXBuildFile; productRef = D15A0002000000000000BB02 /* MultiSetSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		528A805D2DDC7ABD0031C523 /* MultiSet-iOS-SDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MultiSet-iOS-SDK.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		528A805D2DDC7ABD0031C523 /* MultiSet-SDK-Samples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MultiSet-SDK-Samples.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		528A805F2DDC7ABD0031C523 /* MultiSet-iOS-SDK */ = {
+		528A805F2DDC7ABD0031C523 /* MultiSet-SDK-Samples */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "MultiSet-iOS-SDK";
+			path = "MultiSet-SDK-Samples";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -27,7 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D15A0002000000000000BB01 /* MultiSetAR in Frameworks */,
+				D15A0002000000000000BB01 /* MultiSetSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,7 +37,7 @@
 		528A80542DDC7ABD0031C523 = {
 			isa = PBXGroup;
 			children = (
-				528A805F2DDC7ABD0031C523 /* MultiSet-iOS-SDK */,
+				528A805F2DDC7ABD0031C523 /* MultiSet-SDK-Samples */,
 				528A805E2DDC7ABD0031C523 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -45,7 +45,7 @@
 		528A805E2DDC7ABD0031C523 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				528A805D2DDC7ABD0031C523 /* MultiSet-iOS-SDK.app */,
+				528A805D2DDC7ABD0031C523 /* MultiSet-SDK-Samples.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -53,9 +53,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		528A805C2DDC7ABD0031C523 /* MultiSet-iOS-SDK */ = {
+		528A805C2DDC7ABD0031C523 /* MultiSet-SDK-Samples */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 528A80682DDC7ABF0031C523 /* Build configuration list for PBXNativeTarget "MultiSet-iOS-SDK" */;
+			buildConfigurationList = 528A80682DDC7ABF0031C523 /* Build configuration list for PBXNativeTarget "MultiSet-SDK-Samples" */;
 			buildPhases = (
 				528A80592DDC7ABD0031C523 /* Sources */,
 				528A805A2DDC7ABD0031C523 /* Frameworks */,
@@ -66,14 +66,14 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				528A805F2DDC7ABD0031C523 /* MultiSet-iOS-SDK */,
+				528A805F2DDC7ABD0031C523 /* MultiSet-SDK-Samples */,
 			);
-			name = "MultiSet-iOS-SDK";
+			name = "MultiSet-SDK-Samples";
 			packageProductDependencies = (
-				D15A0002000000000000BB02 /* MultiSetAR */,
+				D15A0002000000000000BB02 /* MultiSetSDK */,
 			);
-			productName = "MultiSet-iOS-SDK";
-			productReference = 528A805D2DDC7ABD0031C523 /* MultiSet-iOS-SDK.app */;
+			productName = "MultiSet-SDK-Samples";
+			productReference = 528A805D2DDC7ABD0031C523 /* MultiSet-SDK-Samples.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -91,7 +91,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 528A80582DDC7ABD0031C523 /* Build configuration list for PBXProject "MultiSet-iOS-SDK" */;
+			buildConfigurationList = 528A80582DDC7ABD0031C523 /* Build configuration list for PBXProject "MultiSet-SDK-Samples" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -108,7 +108,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				528A805C2DDC7ABD0031C523 /* MultiSet-iOS-SDK */,
+				528A805C2DDC7ABD0031C523 /* MultiSet-SDK-Samples */,
 			);
 		};
 /* End PBXProject section */
@@ -332,7 +332,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		528A80582DDC7ABD0031C523 /* Build configuration list for PBXProject "MultiSet-iOS-SDK" */ = {
+		528A80582DDC7ABD0031C523 /* Build configuration list for PBXProject "MultiSet-SDK-Samples" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				528A80662DDC7ABF0031C523 /* Debug */,
@@ -341,7 +341,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		528A80682DDC7ABF0031C523 /* Build configuration list for PBXNativeTarget "MultiSet-iOS-SDK" */ = {
+		528A80682DDC7ABF0031C523 /* Build configuration list for PBXNativeTarget "MultiSet-SDK-Samples" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				528A80692DDC7ABF0031C523 /* Debug */,
@@ -364,10 +364,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D15A0002000000000000BB02 /* MultiSetAR */ = {
+		D15A0002000000000000BB02 /* MultiSetSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D15A0002000000000000BB03 /* XCRemoteSwiftPackageReference "multiset-swift-package" */;
-			productName = MultiSetAR;
+			productName = MultiSetSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

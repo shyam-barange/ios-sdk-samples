@@ -7,7 +7,6 @@ Redistribution in source or binary forms must retain this notice.
 
 import SwiftUI
 import MultiSetSDK
-import MultiSetAR
 
 /// The capture screen. Landscape for the whole time it is on screen, because the
 /// intrinsics written beside every frame describe a landscape image and nothing

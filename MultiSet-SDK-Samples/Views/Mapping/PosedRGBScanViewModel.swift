@@ -8,7 +8,6 @@ Redistribution in source or binary forms must retain this notice.
 import Combine
 import Foundation
 import MultiSetSDK
-import MultiSetAR
 
 /// The posed-RGB scan screen's view of a scan the SDK is driving. Besides mirroring
 /// `MultiSet.shared.mapping.scan` it turns two of its changes into one-off messages: new

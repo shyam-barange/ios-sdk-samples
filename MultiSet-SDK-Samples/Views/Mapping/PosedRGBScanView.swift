@@ -7,7 +7,6 @@ Redistribution in source or binary forms must retain this notice.
 
 import SwiftUI
 import MultiSetSDK
-import MultiSetAR
 
 /// The scan from camera images and their poses, for any device that tracks the world.
 /// Landscape throughout, like `ScanView`, because the intrinsics beside every frame describe

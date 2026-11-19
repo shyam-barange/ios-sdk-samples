@@ -6,7 +6,7 @@ Redistribution in source or binary forms must retain this notice.
 */
 
 import SwiftUI
-import MultiSetAR
+import MultiSetSDK
 
 /// How the reconstruction is drawn while recording. Collapsed it names the current style;
 /// expanded it switches between Surface and Wireframe.

@@ -7,7 +7,6 @@ Redistribution in source or binary forms must retain this notice.
 
 import SwiftUI
 import MultiSetSDK
-import MultiSetAR
 
 /// Landing page — authentication, localization mode selection, and object tracking
 struct LandingView: View {

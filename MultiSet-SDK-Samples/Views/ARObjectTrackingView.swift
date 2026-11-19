@@ -10,7 +10,6 @@ import ARKit
 import RealityKit
 import Combine
 import MultiSetSDK
-import MultiSetAR
 
 /// AR view for Object Tracking mode
 struct ARObjectTrackingView: View {
