@@ -45,7 +45,7 @@ final class ConfigStore: ObservableObject {
         static let numberOfFrames = 4
         static let confidenceCheck = true
         static let confidenceThreshold: Double = 0.3
-        static let queryMode: QueryMode = .vps1
+        static let queryMode = MultiSetConfig.defaultQueryMode
         /// Tracks the SDK default rather than restating it. The two used to differ, so
         /// the demo never exercised the path integrators actually got.
         static let poseConsistencyCheck = MultiSetConfig.defaultPoseConsistencyCheck
@@ -123,7 +123,8 @@ final class ConfigStore: ObservableObject {
         static let numberOfFrames = prefix + "loc.numberOfFrames"
         static let confidenceCheck = prefix + "loc.confidenceCheck"
         static let confidenceThreshold = prefix + "loc.confidenceThreshold"
-        static let queryMode = prefix + "loc.queryMode"
+        // Renamed when the default became VPS-2: every Save wrote the old default as a choice
+        static let queryMode = prefix + "loc.queryModeChoice"
         static let poseConsistencyCheck = prefix + "loc.poseConsistencyCheck"
         static let poseConsistencyThreshold = prefix + "loc.poseConsistencyThreshold"
         static let poseConsistencyYawThreshold = prefix + "loc.poseConsistencyYawThreshold"

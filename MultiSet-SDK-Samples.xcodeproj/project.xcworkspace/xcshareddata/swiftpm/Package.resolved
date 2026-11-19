@@ -6,7 +6,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shyam-barange/ios-sdk-package",
       "state" : {
-        "revision" : "659cb768b65699d68a618c240a96f75f5b79fb55",
+        "revision" : "28681baa47330595514c0f00e01f9ea891342a7f",
         "version" : "2.5.0"
       }
     }
