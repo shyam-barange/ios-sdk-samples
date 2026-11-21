@@ -14,9 +14,22 @@
 		528A805D2DDC7ABD0031C523 /* MultiSet-SDK-Samples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MultiSet-SDK-Samples.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E0700001EDGE0001E0700001 /* Exceptions for "MultiSet-SDK-Samples" folder in "MultiSet-SDK-Samples" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				EdgeObjectTracking/EOT/libeot.a,
+			);
+			target = 528A805C2DDC7ABD0031C523 /* MultiSet-SDK-Samples */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		528A805F2DDC7ABD0031C523 /* MultiSet-SDK-Samples */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E0700001EDGE0001E0700001 /* Exceptions for "MultiSet-SDK-Samples" folder in "MultiSet-SDK-Samples" target */,
+			);
 			path = "MultiSet-SDK-Samples";
 			sourceTree = "<group>";
 		};
@@ -279,7 +292,16 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MultiSet-SDK-Samples/EdgeObjectTracking/EOT",
+				);
 				MARKETING_VERSION = 2.5.0;
+				"OTHER_LDFLAGS[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"-leot",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.multiset.sdk.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -287,6 +309,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MultiSet-SDK-Samples/EdgeObjectTracking/EOT/EdgeObjectTracking-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -316,7 +339,16 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MultiSet-SDK-Samples/EdgeObjectTracking/EOT",
+				);
 				MARKETING_VERSION = 2.5.0;
+				"OTHER_LDFLAGS[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"-leot",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.multiset.sdk.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -324,6 +356,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MultiSet-SDK-Samples/EdgeObjectTracking/EOT/EdgeObjectTracking-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

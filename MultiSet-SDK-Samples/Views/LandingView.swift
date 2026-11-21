@@ -14,6 +14,8 @@ struct LandingView: View {
     @State private var navigateToAR = false
     @State private var navigateToObjectTracking = false
     @State private var navigateToMap = false
+    @State private var navigateToEdgeObjects = false
+    @State private var showEdgeObjectCodeMissingAlert = false
     @State private var showMapMissingAlert = false
     @State private var showObjectCodeMissingAlert = false
     @State private var showToast = false
@@ -344,6 +346,78 @@ struct LandingView: View {
                         )
                         .padding(.horizontal, 20)
 
+                        // ── Edge Object Tracking Card ──
+                        VStack(spacing: 16) {
+                            HStack {
+                                Text("Edge Object Tracking")
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .foregroundColor(Color(hex: "#0D9488"))
+
+                                Spacer()
+
+                                if !SDKConfig.edgeObjectCodes.isEmpty {
+                                    Text("\(SDKConfig.edgeObjectCodes.count) object\(SDKConfig.edgeObjectCodes.count == 1 ? "" : "s")")
+                                        .font(.system(size: 12, weight: .medium))
+                                        .foregroundColor(.secondary)
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 4)
+                                        .background(Color.gray.opacity(0.15))
+                                        .cornerRadius(10)
+                                }
+                            }
+
+                            Text("Continuously track plain or smooth objects from their CAD model, even while they move. Process the model in \"Edge Based\" mode on the MultiSet dashboard.")
+                                .font(.system(size: 13))
+                                .foregroundColor(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+
+                            if SDKConfig.edgeObjectCodes.isEmpty {
+                                Text("No edge object codes configured. Add codes to edgeObjectCodes in SDKConfig.")
+                                    .font(.system(size: 13))
+                                    .foregroundColor(.secondary)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            } else {
+                                VStack(spacing: 6) {
+                                    ForEach(SDKConfig.edgeObjectCodes, id: \.self) { code in
+                                        HStack(spacing: 6) {
+                                            Image(systemName: "scope")
+                                                .font(.system(size: 11))
+                                                .foregroundColor(Color(hex: "#0D9488").opacity(0.7))
+                                            Text(code)
+                                                .font(.system(size: 12, weight: .medium, design: .monospaced))
+                                                .foregroundColor(.secondary)
+                                            Spacer()
+                                        }
+                                    }
+                                }
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .background(Color(hex: "#0D9488").opacity(0.08))
+                                .cornerRadius(8)
+                            }
+
+                            Button(action: openEdgeObjectTracking) {
+                                Text(EotTracker.isSupported ? "Start Edge Object Tracking" : "Requires an iPhone")
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 48)
+                                    .background(canStartEdgeTracking ? Color(hex: "#0D9488") : Color.gray.opacity(0.4))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(24)
+                            }
+                            .disabled(!canStartEdgeTracking)
+                        }
+                        .padding(20)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.gray.opacity(0.25), lineWidth: 1)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .fill(Color(UIColor.secondarySystemBackground))
+                                )
+                        )
+                        .padding(.horizontal, 20)
+
                         Spacer(minLength: 20)
 
                         // ── Footer ──
@@ -367,6 +441,9 @@ struct LandingView: View {
             }
             .navigationDestination(isPresented: $navigateToDrafts) {
                 DraftMapsView()
+            }
+            .navigationDestination(isPresented: $navigateToEdgeObjects) {
+                EdgeObjectPickerView(codes: SDKConfig.edgeObjectCodes)
             }
             .navigationDestination(isPresented: $navigateToObjectTracking) {
                 ARObjectTrackingView(
@@ -413,6 +490,11 @@ struct LandingView: View {
             } message: {
                 Text("Please add at least one object code in SDKConfig to start object tracking.")
             }
+            .alert("Edge Object Codes Required", isPresented: $showEdgeObjectCodeMissingAlert) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("Please add at least one object code to edgeObjectCodes in SDKConfig to start edge object tracking.")
+            }
             .onAppear {
                 checkAndAutoInitialize()
                 refreshDraftCount()
@@ -424,6 +506,10 @@ struct LandingView: View {
     }
 
     // MARK: - Computed Properties
+
+    private var canStartEdgeTracking: Bool {
+        sdkDelegate.isAuthenticated && EotTracker.isSupported
+    }
 
     private var mapCodeDisplayText: String {
         if SDKConfig.mapCode.isEmpty && SDKConfig.mapSetCode.isEmpty {
@@ -489,6 +575,14 @@ struct LandingView: View {
         }
 
         navigateToObjectTracking = true
+    }
+
+    private func openEdgeObjectTracking() {
+        guard SDKConfig.hasEdgeObjectTrackingConfiguration() else {
+            showEdgeObjectCodeMissingAlert = true
+            return
+        }
+        navigateToEdgeObjects = true
     }
 
     private func openMapping() {

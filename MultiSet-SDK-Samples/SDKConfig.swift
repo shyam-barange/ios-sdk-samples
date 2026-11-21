@@ -37,6 +37,10 @@ struct SDKConfig {
 
     static let objectCodes: [String] = []  // e.g. ["OBJ_CODE1", "OBJ_CODE2"]
 
+    // MARK: - Edge Object Tracking Configuration
+    // Objects processed in "Edge Based" mode on the dashboard; tracked continuously
+    static let edgeObjectCodes: [String] = []  // e.g. ["OBJ_CODE1", "OBJ_CODE2"]
+
     // MARK: - Helper Methods
 
     static func hasCredentials() -> Bool {
@@ -51,6 +55,10 @@ struct SDKConfig {
 
     static func hasObjectTrackingConfiguration() -> Bool {
         return !objectCodes.isEmpty
+    }
+
+    static func hasEdgeObjectTrackingConfiguration() -> Bool {
+        return !edgeObjectCodes.isEmpty
     }
 
     static func getActiveMapType() -> MapType {

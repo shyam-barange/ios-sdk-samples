@@ -1,0 +1,79 @@
+THIRD-PARTY NOTICES FOR THE EOT (Edge Object Tracking) LIBRARY
+==============================================================
+
+The EOT library binary includes or is derived from the components below. Their
+licenses require that these notices travel with every copy of the binary, so
+this file is distributed alongside libeot.a / libeot.so. This is a starting
+inventory; have legal confirm it before an external release.
+
+--------------------------------------------------------------------------------
+1. Tracking core
+--------------------------------------------------------------------------------
+Portions of this binary are derived from software under the following license.
+(The copyright and permission notice below are reproduced as required by the
+license; the upstream project name and repository are intentionally not part of
+the shipped product.)
+
+MIT License
+
+Copyright (c) 2023 Manuel Stoiber, German Aerospace Center (DLR)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished
+to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+2. OpenCV (modules: core, imgproc)              https://opencv.org
+--------------------------------------------------------------------------------
+Licensed under the Apache License, Version 2.0 ("Apache-2.0"). You may obtain a
+copy of the license at http://www.apache.org/licenses/LICENSE-2.0 . The full
+license text accompanies this distribution. OpenCV bundles third-party code,
+including the components in sections 3 and 5, whose license files are in
+deps/opencv-ios/share/licenses in the build tree.
+
+--------------------------------------------------------------------------------
+3. zlib                                          https://zlib.net
+--------------------------------------------------------------------------------
+Copyright (C) 1995-2024 Jean-loup Gailly and Mark Adler
+
+This software is provided 'as-is', without any express or implied warranty. In
+no event will the authors be held liable for any damages arising from the use
+of this software. Permission is granted to anyone to use this software for any
+purpose, including commercial applications, and to alter it and redistribute it
+freely, subject to the following restrictions:
+
+  1. The origin of this software must not be misrepresented; you must not claim
+     that you wrote the original software. If you use this software in a
+     product, an acknowledgment in the product documentation would be
+     appreciated but is not required.
+  2. Altered source versions must be plainly marked as such, and must not be
+     misrepresented as being the original software.
+  3. This notice may not be removed or altered from any source distribution.
+
+--------------------------------------------------------------------------------
+4. Eigen                                         https://eigen.tuxfamily.org
+--------------------------------------------------------------------------------
+Eigen is primarily licensed under the Mozilla Public License, Version 2.0
+("MPL-2.0"). A copy of the MPL-2.0 is available at https://www.mozilla.org/MPL/2.0/ .
+The headers used are MPL-2.0; Eigen also contains components under BSD and other
+permissive licenses, as described in its COPYING files.
+
+--------------------------------------------------------------------------------
+5. SoftFloat (bundled within OpenCV core)
+--------------------------------------------------------------------------------
+Distributed under the terms in deps/opencv-ios/share/licenses/SoftFloat-COPYING.txt
+(a BSD-style license). Reproduce that file with this notice when shipping.
