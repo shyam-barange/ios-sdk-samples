@@ -25,8 +25,6 @@ struct EdgeStartFrame {
     let queryCamera: simd_float4x4
     /// Where the object is in the picture; without one the server looks in the middle half.
     let box: EdgeQueryBox?
-    /// Comes back unchanged in the answer, which ties the answer to this picture.
-    let frameId: String?
 }
 
 /// The SDK's portrait object query, rebuilt here because the core's `FramePreprocessor` is internal.
@@ -39,7 +37,7 @@ enum EdgeStartQuery {
 
     /// Rotates the landscape sensor picture upright for the portrait screen and swaps the intrinsics to match.
     static func prepare(pixelBuffer: CVPixelBuffer, intrinsics k: simd_float3x3, cameraTransform: simd_float4x4,
-                        box: EdgeQueryBox? = nil, frameId: String? = nil) -> EdgeStartFrame? {
+                        box: EdgeQueryBox? = nil) -> EdgeStartFrame? {
         let sourceWidth = Float(CVPixelBufferGetWidth(pixelBuffer))
         let sourceHeight = Float(CVPixelBufferGetHeight(pixelBuffer))
         let scaleX = Float(imageWidth) / sourceHeight
@@ -49,7 +47,7 @@ enum EdgeStartQuery {
                               fx: k[1][1] * scaleX, fy: k[0][0] * scaleY,
                               px: (sourceHeight - k[2][1]) * scaleX, py: k[2][0] * scaleY,
                               width: imageWidth, height: imageHeight,
-                              queryCamera: queryCamera(cameraTransform), box: box, frameId: frameId)
+                              queryCamera: queryCamera(cameraTransform), box: box)
     }
 
     /// ARKit's camera is landscape; the upright picture's camera is rolled 90° about its own z.
@@ -76,7 +74,6 @@ enum EdgeStartQuery {
             field("boxWidth", String(box.width))
             field("boxHeight", String(box.height))
         }
-        if let frameId = frame.frameId { field("frameId", frameId) }
         body.append(Data("--\(boundary)\r\nContent-Disposition: form-data; name=\"queryImage\"; filename=\"image.JPG\"\r\n".utf8))
         body.append(Data("Content-Type: image/jpeg\r\n\r\n".utf8))
         body.append(frame.jpeg)
@@ -103,12 +100,6 @@ struct EdgeStartResponse: Decodable {
     let position: Position?
     let rotation: Rotation?
     let confidence: Double?
-    let frameId: String?
-
-    /// An answer that names another picture's `frameId` is not for this one; one without it is.
-    func answers(_ frame: EdgeStartFrame) -> Bool {
-        frameId == nil || frameId == frame.frameId
-    }
 
     /// The object in the AR world, as the SDK's object tracking places it: `queryCamera * response.inverse`.
     func worldPose(queryCamera: simd_float4x4) -> simd_float4x4? {

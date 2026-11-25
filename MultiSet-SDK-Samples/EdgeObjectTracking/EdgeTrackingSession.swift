@@ -122,6 +122,8 @@ final class EdgeTrackingSession: NSObject, ObservableObject, ARSessionDelegate {
     /// Bumped whenever the way tracking starts changes, so an answer to an older picture is dropped.
     private var searchGeneration = 0
     private var searchInFlight = false
+    /// The server answered 400 to the query's box fields (production does not take them yet).
+    private var boxRefused = false
     private var searchResult: SearchResult?
     /// Counts AR session interruptions, after which ARKit starts a new world frame.
     private var interruptions = 0
@@ -615,8 +617,7 @@ final class EdgeTrackingSession: NSObject, ObservableObject, ARSessionDelegate {
                 } else {
                     let box = queryBox(frame, viewport: c.viewportSize, trackedPose: state.schedule.boxesTheTrack ? state.pose : nil,
                                        intrinsics: intrinsics, width: w, height: h)
-                    state.searchCount += 1
-                    if search(frame, box: box, frameId: "edge-\(state.searchCount)") {
+                    if search(frame, box: box) {
                         state.schedule.sent(at: now)
                     }
                 }
@@ -753,7 +754,9 @@ final class EdgeTrackingSession: NSObject, ObservableObject, ARSessionDelegate {
 
     /// Sends this frame to the server to find the object, unless a request is already out. The
     /// answer is a world pose, so it still fits when the phone has moved while it was on its way.
-    private func search(_ frame: ARFrame, box: EdgeQueryBox?, frameId: String) -> Bool {
+    /// One request at a time, and `searchGeneration` drops an answer to an older picture, so the
+    /// query carries no frame id (the server answers 400 to one).
+    private func search(_ frame: ARFrame, box: EdgeQueryBox?) -> Bool {
         lock.lock()
         guard !searchInFlight else {
             lock.unlock()
@@ -761,12 +764,13 @@ final class EdgeTrackingSession: NSObject, ObservableObject, ARSessionDelegate {
         }
         searchInFlight = true
         let generation = searchGeneration
+        let box = boxRefused ? nil : box
         lock.unlock()
         let pixelBuffer = frame.capturedImage, intrinsics = frame.camera.intrinsics, camera = frame.camera.transform
         let api = api, code = object.objectCode
         searchQueue.async { [weak self] in
             guard let query = EdgeStartQuery.prepare(pixelBuffer: pixelBuffer, intrinsics: intrinsics, cameraTransform: camera,
-                                                     box: box, frameId: frameId) else {
+                                                     box: box) else {
                 self?.finishSearch(.failed("The camera picture could not be encoded"), generation: generation)
                 return
             }
@@ -774,9 +778,7 @@ final class EdgeTrackingSession: NSObject, ObservableObject, ARSessionDelegate {
                 let result: SearchResult?
                 do {
                     let answer = try await api.startPose(code: code, frame: query)
-                    if !answer.answers(query) {
-                        result = nil
-                    } else if let world = answer.worldPose(queryCamera: query.queryCamera),
+                    if let world = answer.worldPose(queryCamera: query.queryCamera),
                               EdgeSearchPolicy.accepts(confidence: answer.confidence) {
                         result = .found(world)
                     } else {
@@ -784,6 +786,10 @@ final class EdgeTrackingSession: NSObject, ObservableObject, ARSessionDelegate {
                     }
                 } catch EdgeObjectAPIError.unauthorized {
                     result = .unauthorized
+                } catch EdgeObjectAPIError.boxRefused {
+                    // Nothing is reported: the next picture goes out without the box.
+                    self?.stopSendingBox()
+                    result = nil
                 } catch {
                     result = .failed("Can't reach the server, trying again: \(error.localizedDescription)")
                 }
@@ -791,6 +797,12 @@ final class EdgeTrackingSession: NSObject, ObservableObject, ARSessionDelegate {
             }
         }
         return true
+    }
+
+    private func stopSendingBox() {
+        lock.lock()
+        boxRefused = true
+        lock.unlock()
     }
 
     private func finishSearch(_ result: SearchResult?, generation: Int) {

@@ -81,7 +81,7 @@ final class EdgeOutlineRenderer {
             let outline: any Material = outlineMaterial ?? makeFallbackMaterial()
             let entity = Entity()
             for node in rootNodes {
-                entity.addChild(await buildEntity(node, outline: outline))
+                entity.addChild(await buildEntity(node, parent: matrix_identity_float4x4, outline: outline))
             }
             parent.addChild(entity)
             container = entity
@@ -90,20 +90,35 @@ final class EdgeOutlineRenderer {
         }
     }
 
+    /// Every node's transform is baked into its vertices, so the entities carry none: the shell is
+    /// pushed out in the mesh's own units, and under a GLB node scaled by 0.012 (a model exported in
+    /// other units) a 3 mm line came out 0.035 mm wide.
     @MainActor
-    private func buildEntity(_ node: GLBNode<OutlinePrimitive>, outline: any Material) async -> Entity {
+    private func buildEntity(_ node: GLBNode<OutlinePrimitive>, parent: simd_float4x4, outline: any Material) async -> Entity {
         let entity = Entity()
-        entity.transform = node.transform
+        let matrix = parent * node.transform.matrix
+        let linear = simd_float3x3(columns: (simd_make_float3(matrix.columns.0), simd_make_float3(matrix.columns.1),
+                                             simd_make_float3(matrix.columns.2)))
+        let determinant = simd_determinant(linear)
+        let normalMatrix = abs(determinant) > 1e-20 ? linear.inverse.transpose : matrix_identity_float3x3
         for primitive in node.primitives {
+            let positions = primitive.positions.map { simd_make_float3(matrix * SIMD4($0, 1)) }
+            let normals = primitive.normals.map { normal -> SIMD3<Float> in
+                let turned = normalMatrix * normal
+                return simd_length_squared(turned) > 1e-20 ? simd_normalize(turned) : SIMD3<Float>(0, 1, 0)
+            }
+            // A mirroring node turns every triangle over, which would swap the occluder and the shell.
+            let mirrored = determinant < 0
+
             var occlusionDescriptor = MeshDescriptor(name: "occlusion_mesh")
-            occlusionDescriptor.positions = MeshBuffer(primitive.positions)
-            occlusionDescriptor.primitives = .triangles(primitive.indices)
-            occlusionDescriptor.normals = MeshBuffer(primitive.normals)
+            occlusionDescriptor.positions = MeshBuffer(positions)
+            occlusionDescriptor.primitives = .triangles(mirrored ? primitive.shellIndices : primitive.indices)
+            occlusionDescriptor.normals = MeshBuffer(normals)
 
             var outlineDescriptor = MeshDescriptor(name: "outline_mesh")
-            outlineDescriptor.positions = MeshBuffer(primitive.positions)
-            outlineDescriptor.primitives = .triangles(primitive.shellIndices)
-            outlineDescriptor.normals = MeshBuffer(primitive.normals)
+            outlineDescriptor.positions = MeshBuffer(positions)
+            outlineDescriptor.primitives = .triangles(mirrored ? primitive.indices : primitive.shellIndices)
+            outlineDescriptor.normals = MeshBuffer(normals)
 
             if let occlusion = try? MeshResource.generate(from: [occlusionDescriptor]),
                let shell = try? MeshResource.generate(from: [outlineDescriptor]) {
@@ -114,7 +129,7 @@ final class EdgeOutlineRenderer {
             await Task.yield()
         }
         for child in node.children {
-            entity.addChild(await buildEntity(child, outline: outline))
+            entity.addChild(await buildEntity(child, parent: matrix, outline: outline))
         }
         return entity
     }

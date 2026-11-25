@@ -11,6 +11,8 @@ enum EdgeObjectAPIError: Error, Equatable, LocalizedError {
     case unauthorized
     case notFound
     case badStatus(Int)
+    /// The object query's box fields were refused; the same query without them is accepted.
+    case boxRefused
     case badURL
     case invalidResponse
 
@@ -19,6 +21,7 @@ enum EdgeObjectAPIError: Error, Equatable, LocalizedError {
         case .unauthorized: return "Session expired, go back and authenticate again"
         case .notFound: return "Not found"
         case .badStatus(let status): return "The server answered \(status)"
+        case .boxRefused: return "The server does not take a search box"
         case .badURL: return "Bad URL"
         case .invalidResponse: return "Unexpected response"
         }
@@ -122,6 +125,11 @@ struct EdgeObjectAPI {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpBody = EdgeStartQuery.body(objectCode: code, frame: frame, boundary: boundary)
         let (data, response) = try await session.data(for: request)
+        if let http = response as? HTTPURLResponse, http.statusCode != 200 {
+            let answer = String(decoding: data.prefix(300), as: UTF8.self)
+            print("EdgeObjectTracking >> object query answered \(http.statusCode): \(answer)")
+            if http.statusCode == 400, frame.box != nil, answer.contains("\"box") { throw EdgeObjectAPIError.boxRefused }
+        }
         try Self.require200(response)
         do {
             return try JSONDecoder().decode(EdgeStartResponse.self, from: data)
